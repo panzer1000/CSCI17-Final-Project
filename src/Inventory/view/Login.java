@@ -8,6 +8,7 @@ import dao.BaseDAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
 /**
@@ -168,15 +169,17 @@ public class Login extends javax.swing.JFrame {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
-        String sql = "SELECT * FROM tblLogin WHERE Username = ? and Password = ?";
+        String sql = "SELECT * FROM tblLoginUserInfo WHERE Username = ? AND Password = ? AND Type = ?";
         
         
         try{
             ps = conn.prepareStatement(sql);
             ps.setString(1, txtUser.getText());
             ps.setString(2, txtPass.getText());
+            ps.setString(3, cmbType.getSelectedItem().toString());
+            
             rs = ps.executeQuery();
-            if(rs.next()){
+            if(rs.next()){ 
                 JOptionPane.showMessageDialog(null, "Login Succesful");
                 ps.close();
                 rs.close();
@@ -187,7 +190,9 @@ public class Login extends javax.swing.JFrame {
                 mf.setVisible(true);
                 
             }else{
-                JOptionPane.showMessageDialog(null, "Invalid Username and Password");
+                JOptionPane.showMessageDialog(null, "Invalid Input");
+                txtUser.setText("");
+                txtPass.setText("");
             }
         }catch(Exception ex){
             System.out.println(ex);
@@ -255,4 +260,10 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JPasswordField txtPass;
     private javax.swing.JTextField txtUser;
     // End of variables declaration//GEN-END:variables
+
+    public JComboBox getCmbType() {
+        return cmbType;
+    }
+
+
 }

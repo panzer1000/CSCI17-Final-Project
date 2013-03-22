@@ -1,3 +1,3 @@
 Inventory System
 
-Added Login Form xD
+System is still on proccess of creation
