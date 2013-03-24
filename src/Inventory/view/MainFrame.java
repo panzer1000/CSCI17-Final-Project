@@ -8,6 +8,7 @@ import dao.BaseDAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import javax.swing.JMenuItem;
 
 /**
  *
@@ -25,6 +26,7 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
         
         initComponents();
+        
     }
 
     /**
@@ -37,15 +39,17 @@ public class MainFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
+        mnuFile = new javax.swing.JMenu();
         mItemAdd = new javax.swing.JMenu();
-        mItemAddUser = new javax.swing.JMenuItem();
+        mnuAddProduct = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         mItemExit = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
+        mnuView = new javax.swing.JMenu();
+        mnuViewItems = new javax.swing.JMenuItem();
+        mnuEdit = new javax.swing.JMenu();
+        mnuUser = new javax.swing.JMenu();
+        mItemAddUser = new javax.swing.JMenuItem();
         cmbViewEmployees = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -54,20 +58,20 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        jMenu1.setText("File");
+        mnuFile.setText("File");
 
         mItemAdd.setText("Add");
 
-        mItemAddUser.setText("Add New User");
-        mItemAddUser.addActionListener(new java.awt.event.ActionListener() {
+        mnuAddProduct.setText("Add Product");
+        mnuAddProduct.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mItemAddUserActionPerformed(evt);
+                mnuAddProductActionPerformed(evt);
             }
         });
-        mItemAdd.add(mItemAddUser);
+        mItemAdd.add(mnuAddProduct);
 
-        jMenu1.add(mItemAdd);
-        jMenu1.add(jSeparator1);
+        mnuFile.add(mItemAdd);
+        mnuFile.add(jSeparator1);
 
         mItemExit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK));
         mItemExit.setText("Exit");
@@ -76,11 +80,34 @@ public class MainFrame extends javax.swing.JFrame {
                 mItemExitActionPerformed(evt);
             }
         });
-        jMenu1.add(mItemExit);
+        mnuFile.add(mItemExit);
 
-        jMenuBar1.add(jMenu1);
+        jMenuBar1.add(mnuFile);
 
-        jMenu3.setText("View");
+        mnuView.setText("View");
+
+        mnuViewItems.setText("View Items");
+        mnuViewItems.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuViewItemsActionPerformed(evt);
+            }
+        });
+        mnuView.add(mnuViewItems);
+
+        jMenuBar1.add(mnuView);
+
+        mnuEdit.setText("Edit");
+        jMenuBar1.add(mnuEdit);
+
+        mnuUser.setText("User");
+
+        mItemAddUser.setText("Add New User");
+        mItemAddUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mItemAddUserActionPerformed(evt);
+            }
+        });
+        mnuUser.add(mItemAddUser);
 
         cmbViewEmployees.setText("View Employees");
         cmbViewEmployees.addActionListener(new java.awt.event.ActionListener() {
@@ -88,21 +115,9 @@ public class MainFrame extends javax.swing.JFrame {
                 cmbViewEmployeesActionPerformed(evt);
             }
         });
-        jMenu3.add(cmbViewEmployees);
+        mnuUser.add(cmbViewEmployees);
 
-        jMenuBar1.add(jMenu3);
-
-        jMenu2.setText("Edit");
-
-        jMenuItem1.setText("jMenuItem1");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
-            }
-        });
-        jMenu2.add(jMenuItem1);
-
-        jMenuBar1.add(jMenu2);
+        jMenuBar1.add(mnuUser);
 
         setJMenuBar(jMenuBar1);
 
@@ -110,14 +125,15 @@ public class MainFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 675, Short.MAX_VALUE)
+            .addGap(0, 1050, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 445, Short.MAX_VALUE)
+            .addGap(0, 670, Short.MAX_VALUE)
         );
 
-        pack();
+        java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+        setBounds((screenSize.width-1066)/2, (screenSize.height-729)/2, 1066, 729);
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -141,11 +157,18 @@ public class MainFrame extends javax.swing.JFrame {
         employees.setVisible(true);
     }//GEN-LAST:event_cmbViewEmployeesActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void mnuAddProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAddProductActionPerformed
         // TODO add your handling code here:
-        AddUser d = new AddUser(this, false);
-        d.setVisible(true);
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+        AddProduct addProduct = new AddProduct(this,true);
+        addProduct.setVisible(true);
+    }//GEN-LAST:event_mnuAddProductActionPerformed
+
+    private void mnuViewItemsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuViewItemsActionPerformed
+        // TODO add your handling code here:
+        ViewItem viewItem = new ViewItem();
+        viewItem.setVisible(true);
+        
+    }//GEN-LAST:event_mnuViewItemsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -183,20 +206,19 @@ public class MainFrame extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem cmbViewEmployees;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JMenu mItemAdd;
     private javax.swing.JMenuItem mItemAddUser;
     private javax.swing.JMenuItem mItemExit;
+    private javax.swing.JMenuItem mnuAddProduct;
+    private javax.swing.JMenu mnuEdit;
+    private javax.swing.JMenu mnuFile;
+    private javax.swing.JMenu mnuUser;
+    private javax.swing.JMenu mnuView;
+    private javax.swing.JMenuItem mnuViewItems;
     // End of variables declaration//GEN-END:variables
 
-   
-
-    
-
+  
 
 }

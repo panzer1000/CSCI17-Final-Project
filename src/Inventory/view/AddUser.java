@@ -15,9 +15,9 @@ import javax.swing.JOptionPane;
  * @author Allan Jay Aya-ay
  */
 public class AddUser extends javax.swing.JDialog {
-    Connection conn = null;
-    PreparedStatement ps = null;
-    ResultSet rs = null;
+    private Connection conn = null;
+    private PreparedStatement ps = null;
+    private ResultSet rs = null;
     
     /**
      * Creates new form AddUser
@@ -28,7 +28,7 @@ public class AddUser extends javax.swing.JDialog {
         initComponents();
     }
     
-    public void clearFields(){
+    private void clearFields(){
         txtLastName.setText("");
         txtFirstName.setText("");
         txtMI.setText("");
@@ -39,7 +39,7 @@ public class AddUser extends javax.swing.JDialog {
         txtPassword.setText(""); 
     }
     
-    public void Add(){
+    private void Add(){
         String sql = "INSERT INTO tblLoginUserInfo values(?,?,?,?,?,?,?,?,?)";
         
         try{
@@ -55,11 +55,26 @@ public class AddUser extends javax.swing.JDialog {
             ps.setString(9, cmbType.getSelectedItem().toString());
             
             ps.execute();
-            
+            ps.close();
             JOptionPane.showMessageDialog(null, "Added Succesfully");
             clearFields();
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, e);
+        }
+    }
+    
+    private boolean isTxtFieldEmpty(){
+        if("".equals(txtLastName.getText()) ||
+           "".equals(txtFirstName.getText()) ||
+           "".equals(txtMI.getText()) ||
+           "".equals(txtAddress.getText()) ||     
+           "".equals(txtContact.getText()) ||
+           "".equals(txtEmail.getText()) ||
+           "".equals(txtUsername.getText()) ||
+           "".equals(txtPassword.getText())  ){
+                return true;
+        }else{
+                return false;
         }
     }
 
@@ -93,6 +108,8 @@ public class AddUser extends javax.swing.JDialog {
         lblPassword = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Add New User");
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -110,6 +127,7 @@ public class AddUser extends javax.swing.JDialog {
             }
         });
 
+        txtLastName.setNextFocusableComponent(txtFirstName);
         txtLastName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtLastNameActionPerformed(evt);
@@ -122,12 +140,14 @@ public class AddUser extends javax.swing.JDialog {
 
         lblType.setText("Type:");
 
+        txtMI.setNextFocusableComponent(txtAddress);
         txtMI.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtMIActionPerformed(evt);
             }
         });
 
+        txtPassword.setNextFocusableComponent(cmbType);
         txtPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPasswordActionPerformed(evt);
@@ -136,18 +156,21 @@ public class AddUser extends javax.swing.JDialog {
 
         lblContact.setText("Contact #:");
 
+        txtContact.setNextFocusableComponent(txtEmail);
         txtContact.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtContactActionPerformed(evt);
             }
         });
 
+        txtEmail.setNextFocusableComponent(txtUsername);
         txtEmail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtEmailActionPerformed(evt);
             }
         });
 
+        txtUsername.setNextFocusableComponent(txtPassword);
         txtUsername.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtUsernameActionPerformed(evt);
@@ -158,6 +181,7 @@ public class AddUser extends javax.swing.JDialog {
 
         lblUsername.setText("Username:");
 
+        txtAddress.setNextFocusableComponent(txtContact);
         txtAddress.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtAddressActionPerformed(evt);
@@ -166,6 +190,7 @@ public class AddUser extends javax.swing.JDialog {
 
         lblEmail.setText("Email");
 
+        txtFirstName.setNextFocusableComponent(txtMI);
         txtFirstName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtFirstNameActionPerformed(evt);
@@ -196,21 +221,22 @@ public class AddUser extends javax.swing.JDialog {
                     .addComponent(txtEmail)
                     .addComponent(txtMI, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(40, 40, 40)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblPassword)
-                    .addComponent(lblUsername)
-                    .addComponent(lblType))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtUsername)
-                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(cmbType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblPassword)
+                            .addComponent(lblUsername)
+                            .addComponent(lblType))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtUsername)
+                            .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cmbType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtPassword, txtUsername});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cmbType, txtPassword, txtUsername});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -240,7 +266,8 @@ public class AddUser extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblEmail)
-                            .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 46, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblUsername)
@@ -252,20 +279,25 @@ public class AddUser extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblType)
-                            .addComponent(cmbType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cmbType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {txtPassword, txtUsername});
 
-        pack();
+        java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+        setBounds((screenSize.width-429)/2, (screenSize.height-276)/2, 429, 276);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-
-        Add();
+        if(isTxtFieldEmpty()){
+            JOptionPane.showMessageDialog(null, "Please fill in all the data required");
+        }else{
+            Add();
+        }
+       
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void txtLastNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLastNameActionPerformed

@@ -15,29 +15,35 @@ import net.proteanit.sql.DbUtils;
  * @author Allan Jay Aya-ay
  */
 public class ViewEmployees extends javax.swing.JFrame {
-    Connection conn = null;
-    PreparedStatement ps = null;
-    ResultSet rs = null;
+    private Connection conn = null;
+    private PreparedStatement ps = null;
+    private ResultSet rs = null;
     
     /**
      * Creates new form ViewEmployees
      */
     public ViewEmployees() {
+        
         initComponents();
     }
     
     
-    public void populateTable(){
+    private void populateTable(){
         try{
             ps = conn.prepareStatement("SELECT LastName, FirstName, MI, Address, ContactNum"
                     + ", Email, Username, Type FROM tblloginuserinfo");
             rs = ps.executeQuery();
+            
             tblEmployee.setModel(DbUtils.resultSetToTableModel(rs));
+            
         }catch(Exception ex){
             System.out.println(ex);
         }
          
     }
+    
+    
+    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -52,6 +58,8 @@ public class ViewEmployees extends javax.swing.JFrame {
         tblEmployee = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("View Employees");
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -66,7 +74,7 @@ public class ViewEmployees extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6", "Title 7", "Title 8"
+                "asdasd", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6", "Title 7", "Title 8"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -77,6 +85,7 @@ public class ViewEmployees extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblEmployee.setRequestFocusEnabled(false);
         jScrollPane1.setViewportView(tblEmployee);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -84,24 +93,27 @@ public class ViewEmployees extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addGap(19, 19, 19)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 710, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(37, 37, 37)
+                .addGap(54, 54, 54)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(96, Short.MAX_VALUE))
+                .addContainerGap(79, Short.MAX_VALUE))
         );
 
-        pack();
+        java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+        setBounds((screenSize.width-766)/2, (screenSize.height-446)/2, 766, 446);
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         conn = BaseDAO.open();
         populateTable();
+        
+      
     }//GEN-LAST:event_formWindowOpened
 
     /**
