@@ -17,15 +17,14 @@ public class MainFrame extends javax.swing.JFrame {
     private Connection conn = null;
     private PreparedStatement ps = null;
     private ResultSet rs = null;
-    
+    private String currentUser;
+    private String currentUserType;
     
     /**
      * Creates new form MainForm
      */
     public MainFrame() {
-        
         initComponents();
-        
     }
 
     /**
@@ -45,12 +44,13 @@ public class MainFrame extends javax.swing.JFrame {
         mItemExit = new javax.swing.JMenuItem();
         mnuView = new javax.swing.JMenu();
         mnuViewItems = new javax.swing.JMenuItem();
-        mnuEdit = new javax.swing.JMenu();
+        mnuViewTransaction = new javax.swing.JMenuItem();
         mnuUser = new javax.swing.JMenu();
         mItemAddUser = new javax.swing.JMenuItem();
         cmbViewEmployees = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Current User : ");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -93,10 +93,15 @@ public class MainFrame extends javax.swing.JFrame {
         });
         mnuView.add(mnuViewItems);
 
-        jMenuBar1.add(mnuView);
+        mnuViewTransaction.setText("View Transaction");
+        mnuViewTransaction.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuViewTransactionActionPerformed(evt);
+            }
+        });
+        mnuView.add(mnuViewTransaction);
 
-        mnuEdit.setText("Edit");
-        jMenuBar1.add(mnuEdit);
+        jMenuBar1.add(mnuView);
 
         mnuUser.setText("User");
 
@@ -138,6 +143,8 @@ public class MainFrame extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
         conn = BaseDAO.open();
+        this.setTitle("Current Login User -- " + currentUser + " -- " + currentUserType);
+        
     }//GEN-LAST:event_formWindowOpened
 
     private void mItemExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mItemExitActionPerformed
@@ -165,9 +172,16 @@ public class MainFrame extends javax.swing.JFrame {
     private void mnuViewItemsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuViewItemsActionPerformed
         // TODO add your handling code here:
         ViewItem viewItem = new ViewItem();
+        viewItem.setCurrentUser(currentUser);
         viewItem.setVisible(true);
-        
+
     }//GEN-LAST:event_mnuViewItemsActionPerformed
+
+    private void mnuViewTransactionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuViewTransactionActionPerformed
+        // TODO add your handling code here:
+        viewTransaction transaction = new viewTransaction();
+        transaction.setVisible(true);
+    }//GEN-LAST:event_mnuViewTransactionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -211,12 +225,20 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem mItemAddUser;
     private javax.swing.JMenuItem mItemExit;
     private javax.swing.JMenuItem mnuAddProduct;
-    private javax.swing.JMenu mnuEdit;
     private javax.swing.JMenu mnuFile;
     private javax.swing.JMenu mnuUser;
     private javax.swing.JMenu mnuView;
     private javax.swing.JMenuItem mnuViewItems;
+    private javax.swing.JMenuItem mnuViewTransaction;
     // End of variables declaration//GEN-END:variables
+
+    public void setCurrentUser(String currentUser) {
+        this.currentUser = currentUser;
+    }
+
+    public void setCurrentUserType(String currentUserType) {
+        this.currentUserType = currentUserType;
+    }
 
   
 

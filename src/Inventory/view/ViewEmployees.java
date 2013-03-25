@@ -36,6 +36,8 @@ public class ViewEmployees extends javax.swing.JFrame {
             
             tblEmployee.setModel(DbUtils.resultSetToTableModel(rs));
             
+            ps.close();
+            rs.close();
         }catch(Exception ex){
             System.out.println(ex);
         }

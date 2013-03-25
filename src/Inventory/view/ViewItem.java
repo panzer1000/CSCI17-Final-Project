@@ -20,6 +20,8 @@ public class ViewItem extends javax.swing.JFrame {
     private PreparedStatement ps = null;
     private ResultSet rs = null;
     private String itemCode;
+    // Logged in User
+    private String currentUser;
     
     /**
      * Creates new form ViewItem
@@ -28,6 +30,8 @@ public class ViewItem extends javax.swing.JFrame {
         initComponents();
         btnDeleteItem.setEnabled(false);
         btnEditItem.setEnabled(false);
+        btnIncrease.setEnabled(false);
+        btnDecrease.setEnabled(false);
     }
     
     private void populateTable(){
@@ -38,6 +42,8 @@ public class ViewItem extends javax.swing.JFrame {
             
             tblItems.setModel(DbUtils.resultSetToTableModel(rs));
             
+            ps.close();
+            rs.close();
         }catch(Exception ex){
             System.out.println(ex);
         }
@@ -165,6 +171,10 @@ public class ViewItem extends javax.swing.JFrame {
         btnEditItem = new javax.swing.JButton();
         btnDeleteItem = new javax.swing.JButton();
         btnRefresh = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        btnDecrease = new javax.swing.JButton();
+        btnIncrease = new javax.swing.JButton();
+        btnViewTrans = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("View Items");
@@ -432,6 +442,66 @@ public class ViewItem extends javax.swing.JFrame {
             }
         });
 
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Action", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Verdana", 0, 15))); // NOI18N
+
+        btnDecrease.setBackground(new java.awt.Color(255, 0, 0));
+        btnDecrease.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        btnDecrease.setText("Decrease");
+        btnDecrease.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDecreaseActionPerformed(evt);
+            }
+        });
+
+        btnIncrease.setBackground(new java.awt.Color(51, 255, 0));
+        btnIncrease.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        btnIncrease.setText("Increase");
+        btnIncrease.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIncreaseActionPerformed(evt);
+            }
+        });
+
+        btnViewTrans.setBackground(new java.awt.Color(255, 255, 0));
+        btnViewTrans.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        btnViewTrans.setText("View Recent Transactions");
+        btnViewTrans.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnViewTransActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnViewTrans, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(btnIncrease, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnDecrease)))
+                .addContainerGap())
+        );
+
+        jPanel3Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnDecrease, btnIncrease});
+
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnIncrease, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDecrease))
+                .addGap(18, 18, 18)
+                .addComponent(btnViewTrans, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel3Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnDecrease, btnIncrease});
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -445,6 +515,8 @@ public class ViewItem extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnRefresh)))
                 .addContainerGap())
@@ -457,7 +529,8 @@ public class ViewItem extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34))
@@ -513,6 +586,8 @@ public class ViewItem extends javax.swing.JFrame {
         placeToItemInfo();
         btnDeleteItem.setEnabled(true);
         btnEditItem.setEnabled(true);
+        btnIncrease.setEnabled(true);
+        btnDecrease.setEnabled(true);
     }//GEN-LAST:event_tblItemsMouseClicked
 
     private void btnDeleteItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteItemActionPerformed
@@ -561,6 +636,40 @@ public class ViewItem extends javax.swing.JFrame {
         populateTable();
     }//GEN-LAST:event_btnRefreshActionPerformed
 
+    private void btnIncreaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIncreaseActionPerformed
+        // TODO add your handling code here:
+        WindowIncrease increase = new WindowIncrease(this, true);
+        increase.setItemID(lblItemID.getText());
+        increase.setItemName(lblName.getText());
+        increase.setItemQuantity(lblQuantity.getText());
+        String itemUnit = tblItems.getValueAt(tblItems.getSelectedRow(), 4).toString(); // unit of the item to be passed to the WindowDecrease Dialog
+        increase.setItemUnit(itemUnit);
+        
+        // Logged in User
+        increase.setCurrentUser(currentUser);
+        increase.setVisible(true);
+    }//GEN-LAST:event_btnIncreaseActionPerformed
+
+    private void btnViewTransActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewTransActionPerformed
+        // TODO add your handling code here:
+        viewTransaction transaction = new viewTransaction();
+        transaction.setVisible(true);
+    }//GEN-LAST:event_btnViewTransActionPerformed
+
+    private void btnDecreaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDecreaseActionPerformed
+        // TODO add your handling code here:
+        WindowDecrease decrease = new WindowDecrease(this, true);
+        decrease.setItemID(lblItemID.getText());
+        decrease.setItemName(lblName.getText());
+        decrease.setItemQuantity(lblQuantity.getText());
+        String itemUnit = tblItems.getValueAt(tblItems.getSelectedRow(), 4).toString(); // unit of the item to be passed to the WindowDecrease Dialog
+        decrease.setItemUnit(itemUnit);
+        
+        // Logged in User
+        decrease.setCurrentUser(currentUser);
+        decrease.setVisible(true);
+    }//GEN-LAST:event_btnDecreaseActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -596,10 +705,13 @@ public class ViewItem extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDecrease;
     private javax.swing.JButton btnDeleteItem;
     private javax.swing.JButton btnEditItem;
     private javax.swing.ButtonGroup btnGroupSearch;
+    private javax.swing.JButton btnIncrease;
     private javax.swing.JButton btnRefresh;
+    private javax.swing.JButton btnViewTrans;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
@@ -610,6 +722,7 @@ public class ViewItem extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblCategory;
     private javax.swing.JLabel lblDescription;
@@ -629,11 +742,7 @@ public class ViewItem extends javax.swing.JFrame {
         return itemCode;
     }
 
-    
-
-
-
-
-
-
+    public void setCurrentUser(String currentUser) {
+        this.currentUser = currentUser;
+    }
 }

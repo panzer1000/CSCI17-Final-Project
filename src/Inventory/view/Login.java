@@ -27,7 +27,40 @@ public class Login extends javax.swing.JFrame {
     public Login() {
         initComponents();
     }
-
+    
+    public void checkUser(){
+        String sql = "SELECT * FROM tblLoginUserInfo WHERE Username = ? AND Password = ? AND Type = ?";
+        
+        
+        try{
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, txtUser.getText());
+            ps.setString(2, txtPass.getText());
+            ps.setString(3, cmbType.getSelectedItem().toString());
+            
+            rs = ps.executeQuery();
+            if(rs.next()){ 
+                JOptionPane.showMessageDialog(null, "Login Succesful");
+                ps.close();
+                rs.close();
+                conn.close();
+                
+                MainFrame mf = new MainFrame();
+                mf.setCurrentUser(txtUser.getText());
+                mf.setCurrentUserType(cmbType.getSelectedItem().toString());
+                dispose();
+                mf.setVisible(true);
+                
+            }else{
+                JOptionPane.showMessageDialog(null, "Invalid Input");
+                txtUser.setText("");
+                txtPass.setText("");
+            }
+        }catch(Exception ex){
+            System.out.println(ex);
+        }
+    }
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -170,37 +203,7 @@ public class Login extends javax.swing.JFrame {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
-        String sql = "SELECT * FROM tblLoginUserInfo WHERE Username = ? AND Password = ? AND Type = ?";
-        
-        
-        try{
-            ps = conn.prepareStatement(sql);
-            ps.setString(1, txtUser.getText());
-            ps.setString(2, txtPass.getText());
-            ps.setString(3, cmbType.getSelectedItem().toString());
-            
-            rs = ps.executeQuery();
-            if(rs.next()){ 
-                JOptionPane.showMessageDialog(null, "Login Succesful");
-                ps.close();
-                rs.close();
-                conn.close();
-                
-                MainFrame mf = new MainFrame();
-                dispose();
-                mf.setVisible(true);
-                
-            }else{
-                JOptionPane.showMessageDialog(null, "Invalid Input");
-                txtUser.setText("");
-                txtPass.setText("");
-            }
-        }catch(Exception ex){
-            System.out.println(ex);
-        }
-        
-        
-        
+        checkUser();
         
     }//GEN-LAST:event_btnLoginActionPerformed
 
