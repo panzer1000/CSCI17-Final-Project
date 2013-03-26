@@ -294,6 +294,7 @@ public class AddUser extends javax.swing.JDialog {
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         if(isTxtFieldEmpty()){
             JOptionPane.showMessageDialog(null, "Please fill in all the data required");
+            clearFields();
         }else{
             Add();
         }
