@@ -14,7 +14,7 @@ import net.proteanit.sql.DbUtils;
  *
  * @author Allan Jay Aya-ay
  */
-public class viewTransaction extends javax.swing.JFrame {
+public class ViewTransaction extends javax.swing.JFrame {
     private Connection conn = null;
     private PreparedStatement ps = null;
     private ResultSet rs = null;
@@ -22,7 +22,7 @@ public class viewTransaction extends javax.swing.JFrame {
     /**
      * Creates new form viewTransaction
      */
-    public viewTransaction() {
+    public ViewTransaction() {
         initComponents();
     }
     
@@ -265,20 +265,20 @@ public class viewTransaction extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(viewTransaction.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewTransaction.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(viewTransaction.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewTransaction.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(viewTransaction.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewTransaction.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(viewTransaction.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewTransaction.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new viewTransaction().setVisible(true);
+                new ViewTransaction().setVisible(true);
             }
         });
     }

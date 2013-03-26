@@ -161,6 +161,10 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         conn = BaseDAO.open();
         this.setTitle("Current Login User -- " + currentUser + " -- " + currentUserType);
+        if("Employee".equals(currentUserType)){
+            mItemAddUser.setEnabled(false);
+        }
+            
         
     }//GEN-LAST:event_formWindowOpened
 
@@ -196,13 +200,13 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void mnuViewTransactionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuViewTransactionActionPerformed
         // TODO add your handling code here:
-        viewTransaction transaction = new viewTransaction();
+        ViewTransaction transaction = new ViewTransaction();
         transaction.setVisible(true);
     }//GEN-LAST:event_mnuViewTransactionActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         // TODO add your handling code here:
-        viewAbout about = new viewAbout(this,true);
+        ViewAbout about = new ViewAbout(this,true);
         about.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 

@@ -652,7 +652,7 @@ public class ViewItem extends javax.swing.JFrame {
 
     private void btnViewTransActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewTransActionPerformed
         // TODO add your handling code here:
-        viewTransaction transaction = new viewTransaction();
+        ViewTransaction transaction = new ViewTransaction();
         transaction.setVisible(true);
     }//GEN-LAST:event_btnViewTransActionPerformed
 

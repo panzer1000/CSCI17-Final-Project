@@ -35,15 +35,7 @@ public class EditItem extends javax.swing.JDialog {
         
     }
     
-    private void clearFields(){
-        txtItemID.setText("");
-        txtItemName.setText("");
-        txtItemDescription.setText("");
-        txtItemQuantity.setText("");
-        txtItemUOM.setText("");
-        txtItemCategory.setText("");
-        txtItemCost.setText("");  
-    }
+   
     
     private boolean isTxtFieldEmpty(){
         if("".equals(txtItemID.getText()) ||
