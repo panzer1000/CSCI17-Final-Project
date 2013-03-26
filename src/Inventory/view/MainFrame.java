@@ -36,6 +36,7 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenuBar1 = new javax.swing.JMenuBar();
         mnuFile = new javax.swing.JMenu();
         mItemAdd = new javax.swing.JMenu();
@@ -48,6 +49,10 @@ public class MainFrame extends javax.swing.JFrame {
         mnuUser = new javax.swing.JMenu();
         mItemAddUser = new javax.swing.JMenuItem();
         cmbViewEmployees = new javax.swing.JMenuItem();
+        mnuAbout = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+
+        jMenuItem1.setText("jMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Current User : ");
@@ -123,6 +128,18 @@ public class MainFrame extends javax.swing.JFrame {
 
         jMenuBar1.add(mnuUser);
 
+        mnuAbout.setText("About");
+
+        jMenuItem2.setText("About The Developers");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        mnuAbout.add(jMenuItem2);
+
+        jMenuBar1.add(mnuAbout);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -183,6 +200,12 @@ public class MainFrame extends javax.swing.JFrame {
         transaction.setVisible(true);
     }//GEN-LAST:event_mnuViewTransactionActionPerformed
 
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        viewAbout about = new viewAbout(this,true);
+        about.setVisible(true);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -220,10 +243,13 @@ public class MainFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem cmbViewEmployees;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JMenu mItemAdd;
     private javax.swing.JMenuItem mItemAddUser;
     private javax.swing.JMenuItem mItemExit;
+    private javax.swing.JMenu mnuAbout;
     private javax.swing.JMenuItem mnuAddProduct;
     private javax.swing.JMenu mnuFile;
     private javax.swing.JMenu mnuUser;

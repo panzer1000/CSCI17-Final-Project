@@ -40,7 +40,62 @@ public class viewTransaction extends javax.swing.JFrame {
         }
          
     }
-
+    
+    private void arrDate(){
+        try{
+            ps = conn.prepareStatement("SELECT * FROM tbltransaction ORDER BY Date DESC");
+            rs = ps.executeQuery();
+            
+            tblTransaction.setModel(DbUtils.resultSetToTableModel(rs));
+            
+            ps.close();
+            rs.close();
+        }catch(Exception ex){
+            System.out.println(ex);
+        }
+    }
+    
+    private void arrItemID(){
+        try{
+            ps = conn.prepareStatement("SELECT * FROM tbltransaction ORDER BY ItemID ASC");
+            rs = ps.executeQuery();
+            
+            tblTransaction.setModel(DbUtils.resultSetToTableModel(rs));
+            
+            ps.close();
+            rs.close();
+        }catch(Exception ex){
+            System.out.println(ex);
+        }
+    }
+    
+    private void arrItemName(){
+        try{
+            ps = conn.prepareStatement("SELECT * FROM tbltransaction ORDER BY ItemName ASC");
+            rs = ps.executeQuery();
+            
+            tblTransaction.setModel(DbUtils.resultSetToTableModel(rs));
+            
+            ps.close();
+            rs.close();
+        }catch(Exception ex){
+            System.out.println(ex);
+        }
+    }
+    
+    private void arrAction(){
+        try{
+            ps = conn.prepareStatement("SELECT * FROM tbltransaction ORDER BY Action ASC");
+            rs = ps.executeQuery();
+            
+            tblTransaction.setModel(DbUtils.resultSetToTableModel(rs));
+            
+            ps.close();
+            rs.close();
+        }catch(Exception ex){
+            System.out.println(ex);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -50,8 +105,15 @@ public class viewTransaction extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btnGroup1 = new javax.swing.ButtonGroup();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblTransaction = new javax.swing.JTable();
+        jPanel1 = new javax.swing.JPanel();
+        radBtnDate = new javax.swing.JRadioButton();
+        radBtnItemID = new javax.swing.JRadioButton();
+        radBtnItemName = new javax.swing.JRadioButton();
+        radBtnAction = new javax.swing.JRadioButton();
+        btnOrder = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Recent Transaction");
@@ -75,21 +137,89 @@ public class viewTransaction extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tblTransaction);
 
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Sort by: ", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 0, 14))); // NOI18N
+
+        btnGroup1.add(radBtnDate);
+        radBtnDate.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        radBtnDate.setText("Date");
+        radBtnDate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radBtnDateActionPerformed(evt);
+            }
+        });
+
+        btnGroup1.add(radBtnItemID);
+        radBtnItemID.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        radBtnItemID.setText("Item ID");
+
+        btnGroup1.add(radBtnItemName);
+        radBtnItemName.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        radBtnItemName.setText("Item Name");
+
+        btnGroup1.add(radBtnAction);
+        radBtnAction.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        radBtnAction.setText("Action");
+
+        btnOrder.setText("Sort");
+        btnOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOrderActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(radBtnDate)
+                    .addComponent(radBtnItemID))
+                .addGap(13, 13, 13)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(radBtnAction)
+                    .addComponent(radBtnItemName))
+                .addContainerGap(55, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnOrder)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(radBtnDate)
+                    .addComponent(radBtnItemName))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(radBtnItemID)
+                    .addComponent(radBtnAction))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnOrder, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 763, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 763, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(81, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -100,6 +230,23 @@ public class viewTransaction extends javax.swing.JFrame {
         conn = BaseDAO.open();
         populateTable();
     }//GEN-LAST:event_formWindowOpened
+
+    private void radBtnDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radBtnDateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_radBtnDateActionPerformed
+
+    private void btnOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrderActionPerformed
+        // TODO add your handling code here:
+        if(radBtnDate.isSelected()){
+            arrDate();
+        }else if(radBtnItemID.isSelected()){
+            arrItemID();
+        }else if(radBtnItemName.isSelected()){
+            arrItemName();
+        }else if(radBtnAction.isSelected()){
+            arrAction();
+        }
+    }//GEN-LAST:event_btnOrderActionPerformed
 
     /**
      * @param args the command line arguments
@@ -136,7 +283,14 @@ public class viewTransaction extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup btnGroup1;
+    private javax.swing.JButton btnOrder;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JRadioButton radBtnAction;
+    private javax.swing.JRadioButton radBtnDate;
+    private javax.swing.JRadioButton radBtnItemID;
+    private javax.swing.JRadioButton radBtnItemName;
     private javax.swing.JTable tblTransaction;
     // End of variables declaration//GEN-END:variables
 }
