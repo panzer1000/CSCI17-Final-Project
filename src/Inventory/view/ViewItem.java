@@ -593,7 +593,7 @@ public class ViewItem extends javax.swing.JFrame {
     private void btnDeleteItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteItemActionPerformed
         // TODO add your handling code here:
         int p = JOptionPane.showConfirmDialog(null, "All record of the Item will be deleted. Do "
-                + "you want to delete?", "Delete Item", JOptionPane.YES_NO_OPTION);
+                + "you want to continue?", "Delete Item", JOptionPane.YES_NO_OPTION);
         
         if(p == 0){
             deleteItem();
@@ -617,6 +617,11 @@ public class ViewItem extends javax.swing.JFrame {
         EditItem editItem = new EditItem(this,true);
         
         int row = tblItems.getSelectedRow();
+        
+        if(row == -1){
+            JOptionPane.showMessageDialog(null, "Please reselect the item you wish to edit.");
+            return;
+        }
         editItem.setItemCode(tblItems.getValueAt(row, 0).toString());
         editItem.setItemName(tblItems.getValueAt(row, 1).toString());
         editItem.setItemDescription(tblItems.getValueAt(row, 2).toString());

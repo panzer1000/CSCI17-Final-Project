@@ -8,6 +8,7 @@ import dao.BaseDAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -18,6 +19,7 @@ public class ViewEmployees extends javax.swing.JFrame {
     private Connection conn = null;
     private PreparedStatement ps = null;
     private ResultSet rs = null;
+    private String currentUserType;
     
     /**
      * Creates new form ViewEmployees
@@ -44,9 +46,44 @@ public class ViewEmployees extends javax.swing.JFrame {
          
     }
     
+    private String getUserPassword(){
+        String password = null;
+        
+        int row = tblEmployee.getSelectedRow();
+        try{
+            ps = conn.prepareStatement("SELECT Password FROM tblLoginUserInfo WHERE LastName = ?");
+            ps.setString(1, tblEmployee.getValueAt(row, 0).toString());
+            rs = ps.executeQuery();
+            
+            rs.next();
+            password = rs.getString("Password");
+               
+            ps.close();
+            rs.close();
+            return password;
+        }catch(Exception e){
+            System.out.println(e);
+        }
+        
+        return password;
+    }
     
+    private void deleteUser(){
+        String sql = "DELETE FROM tblLoginUserInfo WHERE LastName = ?";
+        String record = tblEmployee.getValueAt(tblEmployee.getSelectedRow(), 0).toString();
+        try{
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, record);
+            ps.execute();
+            
+            ps.close();
+            JOptionPane.showMessageDialog(null, "User Deleted");
+        }catch(Exception e){
+            System.out.println(e);
+        }
+    }
     
-    
+   
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -59,6 +96,10 @@ public class ViewEmployees extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         tblEmployee = new javax.swing.JTable();
+        btnEditUser = new javax.swing.JButton();
+        btnDeleteUser = new javax.swing.JButton();
+        btnAddUser = new javax.swing.JButton();
+        btnRefresh = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("View Employees");
@@ -91,33 +132,146 @@ public class ViewEmployees extends javax.swing.JFrame {
         tblEmployee.setRequestFocusEnabled(false);
         jScrollPane1.setViewportView(tblEmployee);
 
+        btnEditUser.setText("Edit");
+        btnEditUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditUserActionPerformed(evt);
+            }
+        });
+
+        btnDeleteUser.setText("Delete");
+        btnDeleteUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteUserActionPerformed(evt);
+            }
+        });
+
+        btnAddUser.setText("Add");
+        btnAddUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddUserActionPerformed(evt);
+            }
+        });
+
+        btnRefresh.setText("Refresh");
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 710, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnAddUser)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnEditUser, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnDeleteUser)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnRefresh))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 989, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnAddUser, btnDeleteUser, btnEditUser});
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(66, 66, 66)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAddUser)
+                    .addComponent(btnEditUser, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDeleteUser)
+                    .addComponent(btnRefresh))
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnAddUser, btnDeleteUser, btnEditUser});
+
         java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds((screenSize.width-746)/2, (screenSize.height-446)/2, 746, 446);
+        setBounds((screenSize.width-1025)/2, (screenSize.height-393)/2, 1025, 393);
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         conn = BaseDAO.open();
         populateTable();
         
+        if("Employee".equals(currentUserType)){
+            btnAddUser.setEnabled(false);
+            btnDeleteUser.setEnabled(false);
+            btnEditUser.setEnabled(false);
+        }
+        
+        
       
     }//GEN-LAST:event_formWindowOpened
+
+    private void btnEditUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditUserActionPerformed
+        // TODO add your handling code here:
+        EditUser editUser = new EditUser(this,true);
+        int row = tblEmployee.getSelectedRow();
+        
+        if(row == -1){
+            JOptionPane.showMessageDialog(null, "Please select a record");
+            return;
+        }
+        
+        editUser.setUserLName(tblEmployee.getValueAt(row, 0).toString());
+        editUser.setUserFName(tblEmployee.getValueAt(row, 1).toString());
+        editUser.setUserMI(tblEmployee.getValueAt(row, 2).toString());
+        editUser.setUserAddress(tblEmployee.getValueAt(row, 3).toString());
+        editUser.setUserContactNum(tblEmployee.getValueAt(row, 4).toString());
+        editUser.setUserEmail(tblEmployee.getValueAt(row, 5).toString());
+        editUser.setUserUserName(tblEmployee.getValueAt(row, 6).toString());
+        editUser.setUserPassword(getUserPassword());
+        
+        if("Administrator".equals(tblEmployee.getValueAt(row, 7).toString())){
+            editUser.setUserType("Administrator");
+        }else{
+            editUser.setUserType("Employee");
+        }
+        
+        editUser.setVisible(true);
+    }//GEN-LAST:event_btnEditUserActionPerformed
+
+    private void btnAddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUserActionPerformed
+        // TODO add your handling code here:
+        AddUser addUser = new AddUser(this,true);
+        addUser.setVisible(true);
+    }//GEN-LAST:event_btnAddUserActionPerformed
+
+    private void btnDeleteUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteUserActionPerformed
+        // TODO add your handling code here:
+        int row = tblEmployee.getSelectedRow();
+        if(row == -1){
+            JOptionPane.showMessageDialog(null, "Please select a record");
+            return;
+        }
+        
+        int choice = JOptionPane.showConfirmDialog(null, "All record of the User will be deleted. Do "
+                + "you want to continue?", "Delete User", JOptionPane.YES_NO_OPTION);
+        
+        // 0 = YES, 1 = NO
+        if(choice == 0){
+            deleteUser();
+            populateTable();
+        }
+        
+    }//GEN-LAST:event_btnDeleteUserActionPerformed
+
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+        // TODO add your handling code here:
+        populateTable();
+    }//GEN-LAST:event_btnRefreshActionPerformed
 
     /**
      * @param args the command line arguments
@@ -154,7 +308,19 @@ public class ViewEmployees extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddUser;
+    private javax.swing.JButton btnDeleteUser;
+    private javax.swing.JButton btnEditUser;
+    private javax.swing.JButton btnRefresh;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblEmployee;
     // End of variables declaration//GEN-END:variables
+
+    public void setCurrentUserType(String currentUser) {
+        this.currentUserType = currentUser;
+    }
+
+    
+
+
 }

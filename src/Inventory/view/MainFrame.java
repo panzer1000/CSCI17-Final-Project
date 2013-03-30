@@ -60,6 +60,9 @@ public class MainFrame extends javax.swing.JFrame {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
             }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
         });
 
         mnuFile.setText("File");
@@ -161,11 +164,10 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         conn = BaseDAO.open();
         this.setTitle("Current Login User -- " + currentUser + " -- " + currentUserType);
+        
         if("Employee".equals(currentUserType)){
             mItemAddUser.setEnabled(false);
         }
-            
-        
     }//GEN-LAST:event_formWindowOpened
 
     private void mItemExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mItemExitActionPerformed
@@ -181,6 +183,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void cmbViewEmployeesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbViewEmployeesActionPerformed
         ViewEmployees employees = new ViewEmployees();
+        employees.setCurrentUserType(currentUserType);
         employees.setVisible(true);
     }//GEN-LAST:event_cmbViewEmployeesActionPerformed
 
@@ -209,6 +212,10 @@ public class MainFrame extends javax.swing.JFrame {
         ViewAbout about = new ViewAbout(this,true);
         about.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments
